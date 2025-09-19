@@ -29,7 +29,7 @@ function App() {
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center bg-black">
-      <div className="absolute top-4 text-white font-bold py-2 px-4">
+      <div className="absolute top-4 text-slate-600 font-bold py-2 px-4 bg-white">
         Generación: {generation}
       </div>
       <Grid cellSize={cellSize} />
