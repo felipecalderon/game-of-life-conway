@@ -7,8 +7,15 @@ export interface GameState {
   cols: number;
   isRunning: boolean;
   generation: number;
+  speed: number;
+  initialChaos: number;
+  evolutionChaos: number;
   initializeGrid: (rows: number, cols: number) => void;
   nextGeneration: () => void;
   toggleCell: (row: number, col: number) => void;
   toggleIsRunning: () => void;
+  setSpeed: (speed: number) => void;
+  setInitialChaos: (chaos: number) => void;
+  setEvolutionChaos: (chaos: number) => void;
+  randomizeGrid: () => void;
 }

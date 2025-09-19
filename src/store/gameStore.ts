@@ -1,6 +1,6 @@
-import { create } from 'zustand';
-import { calculateNextGeneration } from '../utils/gameLogic';
-import type { GameState, Grid } from '../types';
+import { create } from "zustand";
+import { calculateNextGeneration } from "../utils/gameLogic";
+import type { GameState, Grid } from "../types";
 
 /**
  * Hook de Zustand para gestionar el estado global del juego.
@@ -20,6 +20,12 @@ export const useGameStore = create<GameState>((set, get) => ({
   isRunning: true,
   /** El número de la generación actual. */
   generation: 0,
+  /** Velocidad de la simulación en milisegundos. */
+  speed: 30,
+  /** Factor de caos para la inicialización de la grilla (0-1). */
+  initialChaos: 0.5,
+  /** Factor de caos para la evolución de la grilla (0-1). */
+  evolutionChaos: 0.0001,
 
   /**
    * Inicializa o reinicia ambas grillas (principal y back-buffer) con un patrón aleatorio.
@@ -27,23 +33,30 @@ export const useGameStore = create<GameState>((set, get) => ({
    * @param cols El número de columnas para la nueva grilla.
    */
   initializeGrid: (rows, cols) => {
+    const { initialChaos } = get();
     const createRandomGrid = (): Grid =>
       Array.from({ length: rows }, () =>
-        Array.from({ length: cols }, () => (Math.random() > 0.7 ? 1 : 0))
+        Array.from({ length: cols }, () =>
+          Math.random() < initialChaos ? 1 : 0
+        )
       );
-    set({ grid: createRandomGrid(), backGrid: createRandomGrid(), rows, cols, generation: 0 });
+    set({
+      grid: createRandomGrid(),
+      backGrid: createRandomGrid(),
+      rows,
+      cols,
+      generation: 0,
+    });
   },
 
   /**
    * Calcula la siguiente generación usando la estrategia de doble buffer y los intercambia.
    */
   nextGeneration: () => {
-    const { grid, backGrid } = get();
-    // La lógica de cálculo ahora muta el backGrid en lugar de devolver una nueva grilla.
-    calculateNextGeneration(grid, backGrid);
+    const { grid, backGrid, evolutionChaos } = get();
+    calculateNextGeneration(grid, backGrid, evolutionChaos);
 
-    // Intercambia los buffers: el back-buffer se convierte en el nuevo grid visible.
-    set(state => ({
+    set((state) => ({
       grid: state.backGrid,
       backGrid: state.grid,
       generation: state.generation + 1,
@@ -56,8 +69,8 @@ export const useGameStore = create<GameState>((set, get) => ({
    * @param col La columna de la célula a cambiar.
    */
   toggleCell: (row, col) => {
-    set(state => {
-      const newGrid = state.grid.map(arr => [...arr]);
+    set((state) => {
+      const newGrid = state.grid.map((arr) => [...arr]);
       newGrid[row][col] = newGrid[row][col] ? 0 : 1;
       return { grid: newGrid };
     });
@@ -67,6 +80,32 @@ export const useGameStore = create<GameState>((set, get) => ({
    * Pausa o reanuda la simulación.
    */
   toggleIsRunning: () => {
-    set(state => ({ isRunning: !state.isRunning }));
+    set((state) => ({ isRunning: !state.isRunning }));
+  },
+
+  /**
+   * Establece la velocidad de la simulación.
+   * @param speed La nueva velocidad en milisegundos.
+   */
+  setSpeed: (speed) => set({ speed }),
+
+  /**
+   * Establece el factor de caos inicial.
+   * @param chaos El nuevo factor de caos (0-1).
+   */
+  setInitialChaos: (initialChaos) => set({ initialChaos }),
+
+  /**
+   * Establece el factor de caos de evolución.
+   * @param chaos El nuevo factor de caos (0-1).
+   */
+  setEvolutionChaos: (evolutionChaos) => set({ evolutionChaos }),
+
+  /**
+   * Reinicia la grilla con un nuevo patrón aleatorio basado en el caos inicial actual.
+   */
+  randomizeGrid: () => {
+    const { rows, cols } = get();
+    get().initializeGrid(rows, cols);
   },
 }));

@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Grid from "./components/Grid";
+import Controls from "./components/Controls";
 import useGridCalculation from "./hooks/useGridCalculation";
 import { useGameStore } from "./store/gameStore";
 
@@ -10,7 +11,7 @@ import { useGameStore } from "./store/gameStore";
 function App() {
   const cellSize = 6;
   const { rows, cols } = useGridCalculation(cellSize);
-  const { initializeGrid, isRunning, nextGeneration, generation, toggleIsRunning } =
+  const { initializeGrid, isRunning, nextGeneration, toggleIsRunning, speed } =
     useGameStore();
 
   // Efecto para inicializar la grilla cuando las dimensiones se calculan por primera vez.
@@ -26,27 +27,27 @@ function App() {
       return; // Si el juego está pausado, no hace nada.
     }
 
-    // Configura un intervalo para avanzar a la siguiente generación cada 30ms.
+    // Configura un intervalo para avanzar a la siguiente generación.
     const interval = setInterval(() => {
       nextGeneration();
-    }, 30);
+    }, speed);
 
     // Limpieza: elimina el intervalo cuando el componente se desmonta o isRunning cambia.
     return () => clearInterval(interval);
-  }, [isRunning, nextGeneration]);
+  }, [isRunning, nextGeneration, speed]);
 
   // Efecto para controlar la pausa/reanudación con la barra espaciadora.
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === 'Space') {
+      if (e.code === "Space") {
         e.preventDefault(); // Evita el comportamiento por defecto del navegador
         toggleIsRunning();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener("keydown", handleKeyDown);
     };
   }, [toggleIsRunning]);
 
@@ -57,10 +58,8 @@ function App() {
           PAUSA
         </div>
       )}
-      <div className="absolute top-4 text-slate-600 font-bold py-2 px-4 bg-white">
-        Generación: {generation}
-      </div>
       <Grid cellSize={cellSize} />
+      <Controls />
     </div>
   );
 }

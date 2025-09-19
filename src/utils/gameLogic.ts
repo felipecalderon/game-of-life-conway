@@ -26,7 +26,8 @@ const neighbors = [
  */
 export const calculateNextGeneration = (
   readGrid: Grid,
-  writeGrid: Grid
+  writeGrid: Grid,
+  evolutionChaos: number
 ): void => {
   const rows = readGrid.length;
   if (rows === 0) return;
@@ -57,7 +58,7 @@ export const calculateNextGeneration = (
       }
 
       // Factor de "caos"
-      if (Math.random() < 0.0005) {
+      if (Math.random() < evolutionChaos) {
         newCellState = Math.random() > 0.5 ? 1 : 0;
       }
 
