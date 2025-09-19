@@ -10,4 +10,5 @@ export interface GameState {
   initializeGrid: (rows: number, cols: number) => void;
   nextGeneration: () => void;
   toggleCell: (row: number, col: number) => void;
+  toggleIsRunning: () => void;
 }

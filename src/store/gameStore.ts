@@ -62,4 +62,11 @@ export const useGameStore = create<GameState>((set, get) => ({
       return { grid: newGrid };
     });
   },
+
+  /**
+   * Pausa o reanuda la simulación.
+   */
+  toggleIsRunning: () => {
+    set(state => ({ isRunning: !state.isRunning }));
+  },
 }));

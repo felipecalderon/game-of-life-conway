@@ -10,7 +10,7 @@ import { useGameStore } from "./store/gameStore";
 function App() {
   const cellSize = 6;
   const { rows, cols } = useGridCalculation(cellSize);
-  const { initializeGrid, isRunning, nextGeneration, generation } =
+  const { initializeGrid, isRunning, nextGeneration, generation, toggleIsRunning } =
     useGameStore();
 
   // Efecto para inicializar la grilla cuando las dimensiones se calculan por primera vez.
@@ -35,8 +35,28 @@ function App() {
     return () => clearInterval(interval);
   }, [isRunning, nextGeneration]);
 
+  // Efecto para controlar la pausa/reanudación con la barra espaciadora.
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === 'Space') {
+        e.preventDefault(); // Evita el comportamiento por defecto del navegador
+        toggleIsRunning();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [toggleIsRunning]);
+
   return (
     <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center bg-black">
+      {!isRunning && (
+        <div className="absolute z-10 text-white text-5xl font-black tracking-widest">
+          PAUSA
+        </div>
+      )}
       <div className="absolute top-4 text-slate-600 font-bold py-2 px-4 bg-white">
         Generación: {generation}
       </div>
