@@ -37,12 +37,12 @@ The following scripts are defined in `package.json` and can be run with `pnpm <s
 ## Interfaz principal:
 
 interface GameState {
-grid: (0 | 1)[][]; // Matriz de 0 (muerto) y 1 (vivo)
+grid: (0 | 1)[][];
 rows: number;
 cols: number;
 isRunning: boolean;
+generation: number;
 initializeGrid: (rows: number, cols: number) => void;
 nextGeneration: () => void;
 toggleCell: (row: number, col: number) => void;
-toggleRunning: () => void;
 }

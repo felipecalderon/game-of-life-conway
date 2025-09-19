@@ -4,7 +4,8 @@ import useGridCalculation from "./hooks/useGridCalculation";
 import { useGameStore } from "./store/gameStore";
 
 function App() {
-  const { rows, cols } = useGridCalculation();
+  const cellSize = 6;
+  const { rows, cols } = useGridCalculation(cellSize);
   const { initializeGrid, isRunning, nextGeneration, generation } =
     useGameStore();
 
@@ -27,12 +28,11 @@ function App() {
   }, [isRunning, nextGeneration]);
 
   return (
-    <div className="relative w-screen h-screen bg-black text-green-500 overflow-hidden flex flex-col items-center">
-      <div className="absolute bottom-4 text-white font-bold py-2 px-4">
-        Año: {generation} - D.C{" "}
-        <span className="italic">(después de Conway)</span>
+    <div className="relative w-screen h-screen overflow-hidden flex flex-col items-center justify-center bg-black">
+      <div className="absolute top-4 text-white font-bold py-2 px-4">
+        Generación: {generation}
       </div>
-      <Grid />
+      <Grid cellSize={cellSize} />
     </div>
   );
 }

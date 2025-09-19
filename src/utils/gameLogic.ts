@@ -31,6 +31,10 @@ export const calculateNextGeneration = (grid: Grid): Grid => {
       } else if (cell === 0 && liveNeighbors === 3) {
         newGrid[row][col] = 1; // Comes to life
       }
+      // Introduce chaos to prevent static loops
+      if (Math.random() < 0.0005) {
+        newGrid[row][col] = Math.random() > 0.5 ? 1 : 0;
+      }
     }
   }
 
