@@ -25,7 +25,7 @@ export const useGameStore = create<GameState>((set, get) => ({
   /** Factor de caos para la inicialización de la grilla (0-1). */
   initialChaos: 0.5,
   /** Factor de caos para la evolución de la grilla (0-1). */
-  evolutionChaos: 0.0001,
+  evolutionChaos: 0.0,
 
   /**
    * Inicializa o reinicia ambas grillas (principal y back-buffer) con un patrón aleatorio.

@@ -5,3 +5,23 @@ body {
   padding: 0;
   overflow: hidden; /* To prevent scrollbars from ever appearing */
 }
+
+input[type="range"] {
+  @apply bg-lime-600 w-full h-[6px] rounded outline-none appearance-none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  @apply bg-sky-600 w-4 h-4 rounded-full cursor-pointer appearance-none transition-transform;
+}
+
+input[type="range"]::-moz-range-thumb {
+  @apply bg-sky-600 w-4 h-4 rounded-full cursor-pointer transition-transform;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  @apply scale-125;
+}
+
+input[type="range"]::-moz-range-thumb:hover {
+  @apply scale-125;
+}
