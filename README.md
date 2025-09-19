@@ -7,8 +7,7 @@
 
 ---
 
-![Visualización de la simulación](https://i.imgur.com/rO8aYqj.gif) 
-*(Este es un marcador de posición. Reemplázalo con una captura de pantalla o GIF de tu simulación)*
+![Visualización de la simulación](https://felipecalderon.github.io/game-of-life-conway/gif-readme.gif)
 
 ## Un Universo en una Caja
 
@@ -27,6 +26,7 @@ Esta simulación fue diseñada para ser tanto un espectáculo visual inmersivo c
 - **Lógica de Cómputo Optimizada**: El motor de la simulación utiliza una estrategia de **doble buffer** (`buffers alternos`). En lugar de crear y destruir arrays en cada ciclo, se alternan dos grillas para lectura y escritura, minimizando la presión sobre el recolector de basura y maximizando el rendimiento computacional.
 
 - **Control sobre el Flujo del Tiempo**:
+
   - **Pausa y Reanudación**: Detén el universo en cualquier instante con la **Barra Espaciadora** para analizar patrones complejos.
   - **Intervención Divina**: Altera el destino del ecosistema haciendo clic sobre cualquier célula para darle vida o extinguirla.
 
@@ -43,6 +43,7 @@ La estructura del proyecto sigue principios de arquitectura limpia, separando la
 - **Build Tool**: [Vite](https://vitejs.dev/)
 
 ### Estructura del Código Fuente
+
 ```
 /src
 |-- /components  # Componentes de React (Grid, Cell)
@@ -59,6 +60,7 @@ La estructura del proyecto sigue principios de arquitectura limpia, separando la
 Para explorar este universo en tu propia máquina:
 
 1. **Clona el repositorio:**
+
    ```bash
    git clone https://github.com/felipecalderon/game-of-life-conway.git
    cd game-of-life-conway
@@ -66,14 +68,17 @@ Para explorar este universo en tu propia máquina:
 
 2. **Instala las dependencias:**
    Se recomienda usar `pnpm` para una gestión de paquetes eficiente.
+
    ```bash
    pnpm install
    ```
 
 3. **Inicia el servidor de desarrollo:**
+
    ```bash
    pnpm dev
    ```
+
    La simulación estará disponible en `http://localhost:5173`.
 
 4. **Genera la build de producción:**
