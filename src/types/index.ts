@@ -1,5 +1,8 @@
+export type Grid = (0 | 1)[][];
+
 export interface GameState {
-  grid: (0 | 1)[][];
+  grid: Grid;
+  backGrid: Grid;
   rows: number;
   cols: number;
   isRunning: boolean;
